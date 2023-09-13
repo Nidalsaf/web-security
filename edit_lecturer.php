@@ -12,11 +12,14 @@ if ($mysql->connect_error) {
     die("Connection failed: " . $mysql->connect_error);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST["id"];
-    $name = $_POST["name"];
-    $mail = $_POST["mail"];
-    $phone = $_POST["phone"];
+    //SQLI Use addslashes to escape user input
+    $id = addslashes($_POST["id"]);
+    $name = addslashes($_POST["name"]);
+    $mail = addslashes($_POST["mail"]);
+    $phone = addslashes($_POST["phone"]);
+
     $sql = "UPDATE collage_info SET name = '$name', mail = '$mail', phone = '$phone' WHERE id = $id";
+
     if ($mysql->query($sql) === TRUE) {
         header("Location: index.php");
         exit;
@@ -24,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating record: " . $mysql->error;
     }
 }
-$id = $_GET["id"];
+
+$id = addslashes($_GET["id"]);
 $sql = "SELECT id, name, mail, phone FROM collage_info WHERE id = $id";
 $result = $mysql->query($sql);
 
