@@ -18,15 +18,15 @@ if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = uniqid('', true); // Generate a token based on the current time
 }
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         die("CSRF Token validation failed!");
     }
 
-    $name = $_POST["name"];
-    $mail = $_POST["mail"];
-    $phone = $_POST["phone"];
+    //(SQLI) using addslashes to escape user input
+    $name = addslashes($_POST["name"]);
+    $mail = addslashes($_POST["mail"]);
+    $phone = addslashes($_POST["phone"]);
 
     $sql = "INSERT INTO collage_info (name, mail, phone)
             VALUES ('$name', '$mail', '$phone')";
@@ -101,5 +101,6 @@ $mysql->close();
 
         <button class="btn" type="submit">Submit</button>
     </form>
+</div>
 </body>
 </html>
