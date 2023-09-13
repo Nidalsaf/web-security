@@ -86,7 +86,7 @@ $mysql->close();
 <div class="body">
     <h1>הוספת מרצה חדש</h1>
 
-    <form method="POST" action="">
+    <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
 
